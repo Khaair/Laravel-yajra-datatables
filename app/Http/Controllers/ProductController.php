@@ -28,19 +28,26 @@ class ProductController extends Controller
     }
 
     // Store new data
+
+
     public function store(Request $request)
     {
+
         // Validation
         $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
         ]);
 
-        Product::updateOrCreate(
-            ['id' => $request->my_id],
-            ['title' => $request->title, 'body' => $request->body]
-        );
-        return response()->json(['success' => 'Data saved successfully!']);
+        // Loop through the title and body arrays
+        foreach ($request->title as $index => $title) {
+            Product::updateOrCreate(
+                ['id' => $request->post_id[$index] ?? null], // If editing, use post_id
+                ['title' => $title, 'body' => $request->body[$index]]
+            );
+        }
+
+        return response()->json(['success' => 'Posts saved successfully.']);
     }
 
     // Edit data
