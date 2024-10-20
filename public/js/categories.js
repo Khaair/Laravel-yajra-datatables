@@ -9,12 +9,10 @@ $(function () {
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: productsIndexRoute, // Use the JavaScript variable
+        ajax: categoriesIndexRoute, // Use the JavaScript variable
         columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'}, 
-            {data: 'title', name: 'title'}, 
-            {data: 'body', name: 'body'},
-            {data: 'category', name: 'category'},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -31,18 +29,14 @@ $(function () {
     // Edit 
     $('body').on('click', '.editBtn', function () {
         var my_id = $(this).data('id');
-        $.get(productsIndexRoute + '/' + my_id + '/edit', function (data) { // Use the variable
-            $('#titleError').text('');
-            $('#bodyError').text('');
-            $('#category_idError').text('');
+        $.get(categoriesIndexRoute + '/' + my_id + '/edit', function (data) { // Use the variable
+            $('#nameError').text('');
             $('#modelHeading').html("Edit");
             $('#saveBtn').val("edit");
             $('#ajaxModel').modal('show');
             $('#my_id').val(data.id);
-            $('#title').val(data.title);
-            $('#body').val(data.body);
-            $('#category_id').val(data.category_id);
-
+            $('#name').val(data.name);
+            
         });
     });
 
@@ -52,7 +46,7 @@ $(function () {
         $(this).html('Sending..');
         $.ajax({
             data: $('#myForm').serialize(),
-            url: productsStoreRoute, // Use the variable
+            url: categoriesStoreRoute, // Use the variable
             type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -68,15 +62,10 @@ $(function () {
                 var errors = data.responseJSON.errors;
                 
                 // Display validation errors
-                if(errors.title){
-                    $('#titleError').text(errors.title[0]);
+                if(errors.name){
+                    $('#nameError').text(errors.name[0]);
                 }
-                if(errors.body){
-                    $('#bodyError').text(errors.body[0]);
-                }
-                if(errors.category_id){
-                    $('#category_idError').text(errors.category_id[0]);
-                }
+               
             }
         });
     });
@@ -87,7 +76,7 @@ $(function () {
         if(confirm("Are You sure want to delete !")){
             $.ajax({
                 type: "DELETE",
-                url: productsStoreRoute + '/' + my_id, // Use the variable
+                url: categoriesStoreRoute + '/' + my_id, // Use the variable
                 success: function (data) {
                     table.draw();
                 },
@@ -100,9 +89,7 @@ $(function () {
 
         // Clear validation messages on form reset
         $('#myForm').on('reset', function() {
-            $('#titleError').text('');
-            $('#bodyError').text('');
-            $('#category_idError').text('');
-
+            $('#nameError').text('');
+           
         });
 });

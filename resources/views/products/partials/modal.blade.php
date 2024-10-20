@@ -15,17 +15,35 @@
                             <div class="form-group">
                                 <label for="title" class="col-sm-2 control-label">Title</label>
                                 <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="title" name="title[]" placeholder="Enter Title" maxlength="50" required="">
+                                    <input type="text" class="form-control" id="title" name="title[]"
+                                        placeholder="Enter Title" maxlength="50" required="">
                                     <span class="text-danger" id="titleError"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Body</label>
                                 <div class="col-sm-12">
-                                    <textarea id="body" name="body[]" required="" placeholder="Enter Body" class="form-control"></textarea>
+                                    <textarea id="body" name="body[]" required="" placeholder="Enter Body"
+                                        class="form-control"></textarea>
                                     <span class="text-danger" id="bodyError"></span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="category_id">Category:</label>
+                                <div class="col-sm-12">
+                                    <select name="category_id[]" class="form-control" required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger" id="category_idError"></span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- Add More button -->
@@ -36,7 +54,7 @@
                     </div>
                     <!-- Submit button -->
                     <div class="col-sm-offset-2 col-sm-10">
-                         <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes</button>
+                        <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -44,9 +62,9 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+$(document).ready(function() {
     // When 'Add More' is clicked
-    $('#addMoreBtn').click(function () {
+    $('#addMoreBtn').click(function() {
         // Clone the first section and append to the dynamic section
         var newSection = `
             <div class="section">
@@ -64,6 +82,20 @@
                         <span class="text-danger" id="bodyError"></span>
                     </div>
                 </div>
+                        <div class="form-group">
+                                <label class="col-sm-2 control-label" for="category_id">Category:</label>
+                                <div class="col-sm-12">
+                                    <select name="category_id[]" class="form-control" required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger" id="category_idError"></span>
+                                </div>
+                            </div>
                 <!-- Remove button -->
                 <div class="form-group text-right">
                     <div class="col-sm-12">
@@ -76,9 +108,8 @@
     });
 
     // Remove section when 'Remove' button is clicked
-    $(document).on('click', '.removeSection', function () {
+    $(document).on('click', '.removeSection', function() {
         $(this).closest('.section').remove(); // Remove the closest section
     });
 });
-
 </script>
