@@ -3,8 +3,8 @@
 @section('content')
 <div>
    <div class="text-right mb-5">
-   <button class="btn btn-success" id="createNew">Add New</button>
-   <!-- <a href="{{ route('products.create') }}" class="btn btn-primary mb-4">Create</a> -->
+  
+   <a href="{{ route('products.create') }}" class="btn btn-primary mb-4">Create</a>
    </div>
     <table class="table table-bordered data-table">
         <thead>
